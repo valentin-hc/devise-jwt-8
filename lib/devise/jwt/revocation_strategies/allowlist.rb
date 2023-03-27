@@ -32,6 +32,7 @@ module Devise
 
           # @see Warden::JWTAuth::Interfaces::RevocationStrategy#revoke_jwt
           def self.revoke_jwt(payload, user)
+            return if !user
             jwt = user.allowlisted_jwts.find_by(payload.slice('jti', 'aud'))
             jwt.destroy! if jwt
           end
